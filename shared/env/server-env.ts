@@ -8,8 +8,7 @@ const serverEnvSchema = z
   .object({
     NODE_ENV: z.string(),
     SERVICE_NAME: z.string().default("portfolio"),
-    PORTFOLIO_BACKEND_URL: z.url(),
-    SESSION_SECRET: z.string().min(1, "SESSION_SECRET is required")
+    PORTFOLIO_BACKEND_URL: z.url()
   })
   .readonly();
 
