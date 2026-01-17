@@ -20,7 +20,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/sha
 import { useAction } from "@/shared/hooks/use-action";
 
 // actions
-import { signInAction } from "@/features/auth/actions/signin-action";
+import { signInAction } from "@/shared/actions/signin/signin-action";
 
 export function SignInForm() {
   const { execute, isLoading } = useAction(signInAction);

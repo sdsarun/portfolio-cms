@@ -12,7 +12,7 @@ import { Input } from "@/shared/ui/input";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/shared/ui/sheet";
 import { Separator } from "@radix-ui/react-dropdown-menu";
 import { Skeleton } from "@/shared/ui/skeleton";
-import { TooltipProvider, TooltipContent, Tooltip, TooltipTrigger } from "@radix-ui/react-tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/shared/ui/tooltip";
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state";
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
@@ -482,7 +482,7 @@ function SidebarMenuButton({
   tooltip?: string | React.ComponentProps<typeof TooltipContent>;
 } & VariantProps<typeof sidebarMenuButtonVariants>) {
   const Comp = asChild ? Slot : "button";
-  const { isMobile, state } = useSidebar();
+  const { isMobile, state, toggleSidebar } = useSidebar();
 
   const button = (
     <Comp
@@ -491,6 +491,12 @@ function SidebarMenuButton({
       data-size={size}
       data-active={isActive}
       className={cn(sidebarMenuButtonVariants({ variant, size }), className)}
+      onClick={(event) => {
+        if (isMobile) {
+          toggleSidebar();
+        }
+        props?.onClick?.(event);
+      }}
       {...props}
     />
   );

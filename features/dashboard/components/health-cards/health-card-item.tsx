@@ -22,7 +22,7 @@ export function HealthCardItem({
   return (
     <Card className="py-4">
       <CardHeader>
-        <Box className="row-span-2  flex gap-2">
+        <Box className="row-span-2 flex gap-2">
           <Box className="flex h-9 w-9 items-center justify-center rounded-full bg-muted/50">
             <Icon className="h-4 w-4 text-foreground" />
           </Box>

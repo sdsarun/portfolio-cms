@@ -1,18 +1,17 @@
 "use server";
 
+// core
 import { cookies } from "next/headers";
-import { createAction } from "@/shared/utils/action/create-action";
-import { portfolioApi } from "@/shared/http/server-http-client";
 import { jwtDecode } from "jwt-decode";
 import { redirect } from "next/navigation";
 
-export type SignInActionInput = {
-  password: string;
-};
+// http
+import { portfolioApi } from "@/shared/http/server-http-client";
 
-export type SignInActionOutput = {
-  token: string;
-};
+// actions
+import { createAction } from "@/shared/utils/action/create-action";
+import type { SignInActionInput } from "@/shared/actions/signin/signin-input";
+import type { SignInActionOutput } from "@/shared/actions/signin/signin-output";
 
 export const signInAction = createAction<SignInActionInput>({
   action: async (input) => {
