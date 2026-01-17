@@ -34,6 +34,6 @@ export const signInAction = createAction<SignInActionInput>({
       maxAge: maxAgeSeconds
     });
 
-    redirect("/auth");
+    redirect("/auth/dashboard");
   }
 });
