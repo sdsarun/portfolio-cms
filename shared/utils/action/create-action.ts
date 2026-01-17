@@ -4,6 +4,8 @@ import { HttpClientError } from "@/shared/http/http-client";
 import { isRedirectError, RedirectType } from "next/dist/client/components/redirect-error";
 import { redirect } from "next/navigation";
 
+const RESOLVE_ERROR_MESSAGE_KEYS: string[] = ["message", "detail"];
+
 export type ActionInput<TInput = void> = TInput extends void ? void : TInput;
 
 export type ActionOutputSuccess<TOutput = void> = {
@@ -18,8 +20,7 @@ export type ActionOutputFailure = {
 
 export type ActionOutput<TOutput = void> = ActionOutputSuccess<TOutput> | ActionOutputFailure;
 
-export type ActionFunction<TInput = void, TOutput = void> =
-  TInput extends void ? () => Promise<TOutput> : (input: ActionInput<TInput>) => Promise<TOutput>;
+export type ActionFunction<TInput = void, TOutput = void> = (input: TInput) => Promise<TOutput>;
 
 export type ActionAuthOptions = {
   redirectIfUnAuthorize?: boolean;
@@ -30,14 +31,21 @@ export type CreateActionOptions<TInput = void, TOutput = void> = {
   auth?: ActionAuthOptions;
 };
 
-const RESOLVE_ERROR_MESSAGE_KEYS: string[] = ["message", "detail"];
+export function createAction<TOutput>(
+  options: CreateActionOptions<void, TOutput>
+): () => Promise<ActionOutput<TOutput>>;
+
+export function createAction<TInput, TOutput>(
+  options: CreateActionOptions<TInput, TOutput>
+): (input: TInput) => Promise<ActionOutput<TOutput>>;
 
 export function createAction<TInput = void, TOutput = void>({
   action,
   auth
 }: CreateActionOptions<TInput, TOutput>) {
   const { redirectIfUnAuthorize = false } = auth || {};
-  return async (input: ActionInput<TInput>): Promise<ActionOutput<TOutput>> => {
+
+  const wrappedAction = async (input: TInput): Promise<ActionOutput<TOutput>> => {
     try {
       const result = await action(input);
       return {
@@ -49,6 +57,7 @@ export function createAction<TInput = void, TOutput = void>({
         throw error;
       }
       let message: string = "Unknown error";
+
       if (error instanceof HttpClientError) {
         if (error.response) {
           const responseStatus = error.response.status;
@@ -57,20 +66,28 @@ export function createAction<TInput = void, TOutput = void>({
           }
 
           const errorResult = await error.response.json();
-          if (typeof errorResult === "object") {
-            for (const errorKey in errorResult) {
-              if (RESOLVE_ERROR_MESSAGE_KEYS.includes(errorKey)) {
-                message = errorResult[errorKey];
+          if (typeof errorResult === "object" && errorResult !== null) {
+            for (const errorKey of RESOLVE_ERROR_MESSAGE_KEYS) {
+              if (errorKey in errorResult) {
+                const potentialMessage = (errorResult as Record<string, unknown>)[errorKey];
+                if (typeof potentialMessage === "string") {
+                  message = potentialMessage;
+                  break;
+                }
               }
             }
           }
         }
       } else if (error instanceof Error) {
         message = error.message;
+      } else if (typeof error === "string") {
+        message = error;
       } else {
         message = "Unexpected error";
       }
       return { success: false, message };
     }
   };
+  return wrappedAction as TInput extends void ? () => Promise<ActionOutput<TOutput>>
+  : (input: TInput) => Promise<ActionOutput<TOutput>>;
 }
