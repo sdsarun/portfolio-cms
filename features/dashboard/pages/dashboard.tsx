@@ -8,11 +8,8 @@ export type DashboardProps = PageProps<"/auth">;
 
 export async function DashboardPage({}: DashboardProps) {
   await requireAuth();
-
-  const dashboardData = await getDashboardDataAction();
-  console.log("[LOG] - dashboard.tsx:13 - DashboardPage - dashboardData:", dashboardData);
   return (
-    <Main variants="authPage">
+    <Main variant="authPage">
       <h1>dashboard page</h1>
       <Button
         onClick={async () => {
@@ -30,7 +27,6 @@ export async function DashboardPage({}: DashboardProps) {
       >
         Fetch
       </Button>
-      <pre>{JSON.stringify(dashboardData, null, 2)}</pre>
     </Main>
   );
 }

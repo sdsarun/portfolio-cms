@@ -1,61 +1,37 @@
-"use client";
-
-import { Box } from "@/shared/layout/box";
+// components
+import { AuthSidebarContent } from "@/features/auth/components/layout/auth-sidebar-content";
+import { AuthSidebarFooter } from "@/features/auth/components/layout/auth-sidebar-footer";
+import { AuthSidebarHeader } from "@/features/auth/components/layout/auth-sidebar-header";
 import { Header } from "@/shared/layout/header";
-import {
-  Breadcrumb,
-  BreadcrumbList,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbSeparator,
-  BreadcrumbPage
-} from "@/shared/ui/breadcrumb";
 import { Separator } from "@/shared/ui/separator";
-import {
-  Sidebar,
-  SidebarProvider,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuItem,
-  SidebarMenuButton,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarFooter,
-  SidebarInset,
-  SidebarTrigger
-} from "@/shared/ui/sidebar";
-import {
-  LayoutDashboard,
-  Monitor,
-  FileText,
-  Briefcase,
-  Phone,
-  Key,
-  Settings,
-  Link,
-  Command,
-  LogOut
-} from "lucide-react";
-import { usePathname } from "next/navigation";
+import { Sidebar, SidebarInset, SidebarProvider, SidebarTrigger } from "@/shared/ui/sidebar";
 
 export function AuthLayout({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
-  const menuItems = [
-    { icon: LayoutDashboard, label: "Dashboard", path: "/" },
-    { icon: Monitor, label: "Home Page", path: "/home-editor" },
-    { icon: FileText, label: "Resume", path: "/resume" },
-    { icon: Briefcase, label: "Work", path: "/work" },
-    { icon: Phone, label: "Contact", path: "/contact" },
-    { icon: Key, label: "API Keys", path: "/api-keys" },
-    { icon: Settings, label: "Settings", path: "/settings" }
-  ];
-
-  const currentPath = menuItems.find((i) => i.path === pathname);
-
   return (
     <SidebarProvider style={{ "--sidebar-width": "13rem" } as React.CSSProperties}>
-      <SidebarInset></SidebarInset>
+      <Sidebar collapsible="icon">
+        <AuthSidebarHeader />
+        <AuthSidebarContent />
+        <AuthSidebarFooter />
+      </Sidebar>
+      <SidebarInset>
+        <Header className="sticky top-0 bg-background flex h-12 shrink-0 items-center gap-2 border-b px-4 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+          <SidebarTrigger />
+          <Separator orientation="vertical" className="mr-2 h-4" />
+          {/* <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem className="hidden md:block">
+                <BreadcrumbLink href="#">Admin</BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator className="hidden md:block" />
+              <BreadcrumbItem>
+                <BreadcrumbPage>{currentPath?.label || "Dashboard"}</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb> */}
+        </Header>
+        {children}
+      </SidebarInset>
     </SidebarProvider>
   );
 }
