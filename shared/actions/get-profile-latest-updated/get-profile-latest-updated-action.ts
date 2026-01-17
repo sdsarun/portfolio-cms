@@ -7,10 +7,10 @@ import { requireAuth } from "@/shared/auth/required-auth";
 import { portfolioApi } from "@/shared/http/server-http-client";
 
 // actions
-import type { LatestUpdatedActionOutput } from "@/shared/actions/get-latest-updated/get-latest-updated-output";
+import type { GetProfileLatestUpdatedActionOutput } from "@/shared/actions/get-profile-latest-updated/get-profile-latest-updated-output";
 import { createAction } from "@/shared/utils/action/create-action";
 
-export const getLatestUpdatedAction = createAction<LatestUpdatedActionOutput>({
+export const getProfileLatestUpdatedAction = createAction<GetProfileLatestUpdatedActionOutput>({
   action: async () => {
     const auth = await requireAuth();
     const response = await portfolioApi("/v1/profile/latest-updated", {

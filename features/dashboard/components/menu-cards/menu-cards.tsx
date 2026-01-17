@@ -10,10 +10,10 @@ import { Monitor, Briefcase, FileText, Phone } from "lucide-react";
 import { Box } from "@/shared/layout/box";
 
 // actions
-import { getLatestUpdatedAction } from "@/shared/actions/get-latest-updated/get-latest-updated-action";
+import { getProfileLatestUpdatedAction } from "@/shared/actions/get-profile-latest-updated/get-profile-latest-updated-action";
 
 export async function MenuCards() {
-  const latestUpdated = await getLatestUpdatedAction();
+  const latestUpdated = await getProfileLatestUpdatedAction();
   if (!latestUpdated.success) {
     return <MessageAlert title="Unable to fetch data" description={latestUpdated.message} />;
   }
