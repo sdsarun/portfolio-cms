@@ -1,35 +1,37 @@
 // components
-import { getDashboardDataAction } from "@/features/dashboard/actions/get-dashboard-action";
-import { Button } from "@/shared/ui/button";
+import { Suspense } from "react";
 import { AuthMainContent } from "@/features/auth/components/layout/auth-main-content";
+import { MenuCards } from "@/features/dashboard/components/menu-cards/menu-cards";
+import { MenuCardsSkeleton } from "@/features/dashboard/components/menu-cards/menu-cards-skeleton";
+import { HealthCards } from "@/features/dashboard/components/health-cards/health-cards";
+import { HealthCardSkeleton } from "@/features/dashboard/components/health-cards/health-card-skeleton";
+import { Box } from "@/shared/layout/box";
+import { Typography } from "@/shared/ui/typography";
 
 // actions
 import { requireAuth } from "@/shared/auth/required-auth";
-import { signOutAction } from "@/features/auth/actions/signout-action";
 
 export type DashboardProps = PageProps<"/auth">;
 
 export async function DashboardPage({}: DashboardProps) {
   await requireAuth();
   return (
-    <AuthMainContent>
-      <h1>dashboard page</h1>
-      <Button
-        onClick={async () => {
-          "use server";
-          await signOutAction();
-        }}
-      >
-        Sign Out
-      </Button>
-      <Button
-        onClick={async () => {
-          "use server";
-          await getDashboardDataAction();
-        }}
-      >
-        Fetch
-      </Button>
+    <AuthMainContent
+      title="Dashboard"
+      description="Manage your portfolio content and check system status."
+      classNames={{
+        root: "flex flex-col gap-6"
+      }}
+    >
+      <Suspense fallback={<MenuCardsSkeleton />}>
+        <MenuCards />
+      </Suspense>
+      <Box as="section" className="flex flex-col gap-4">
+        <Typography className="text-xl font-semibold tracking-tight">System Health</Typography>
+        <Suspense fallback={<HealthCardSkeleton />}>
+          <HealthCards />
+        </Suspense>
+      </Box>
     </AuthMainContent>
   );
 }
