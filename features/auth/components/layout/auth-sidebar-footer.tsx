@@ -4,7 +4,7 @@ import { Typography } from "@/shared/ui/typography";
 import { LogOut } from "lucide-react";
 
 // actions
-import { signOutAction } from "@/features/auth/actions/signout-action";
+import { signOutAction } from "@/shared/actions/signout/signout-action";
 
 export function AuthSidebarFooter() {
   return (

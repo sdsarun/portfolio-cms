@@ -71,13 +71,21 @@ function MessageAlert({
   icon = <AlertCircleIcon />,
   title = "Something went wrong",
   description,
-  variant = "default",
+  variant = "destructive",
   classNames
 }: MessageAlertProps) {
   return (
-    <Alert variant={variant} className={classNames?.root}>
+    <Alert
+      variant={variant}
+      className={cn(
+        {
+          "border-destructive/5 border-2 bg-destructive/10": variant === "destructive"
+        },
+        classNames?.root
+      )}
+    >
       {icon}
-      <AlertTitle>{title}</AlertTitle>
+      <AlertTitle className="font-semibold">{title}</AlertTitle>
       {description && <AlertDescription>{description}</AlertDescription>}
     </Alert>
   );

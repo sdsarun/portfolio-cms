@@ -1,22 +1,27 @@
 // components
+import Link from "next/link";
 import {
   HealthCardItem,
   type HealthCardItemProps
 } from "@/features/dashboard/components/health-cards/health-card-item";
 import { MessageAlert } from "@/shared/ui/alert";
 import { ArrowRight, Globe } from "lucide-react";
-
-// actions
-import { getHealthAction } from "@/features/dashboard/actions/get-health/get-health-action";
 import { Box } from "@/shared/layout/box";
 import { Button } from "@/shared/ui/button";
-import Link from "next/link";
+
+// actions
+import { getHealthAction } from "@/shared/actions/get-health/get-health-action";
+import { getProfileInfoAction } from "@/shared/actions/get-profile-info/get-profile-info-action";
 
 export async function HealthCards() {
-  const health = await getHealthAction();
+  const [health, profileInfo] = await Promise.all([getHealthAction(), getProfileInfoAction()]);
 
   if (!health.success) {
     return <MessageAlert title="Unable to fetch health" description={health.message} />;
+  }
+
+  if (!profileInfo.success) {
+    return <MessageAlert title="Unable to fetch health" description={profileInfo.message} />;
   }
 
   const healthServiceItems: HealthCardItemProps[] = [
@@ -26,16 +31,20 @@ export async function HealthCards() {
       healthStatus: health.data.services?.portfolioSite === "up" ? "Healthy" : "Down",
       isHealty: health.data.services?.portfolioSite === "up",
       rightContent: (
-        <Button variant="ghost" size="sm">
-          <Link
-            href="https://sdsarun.dev/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center"
-          >
-            Visit Site <ArrowRight className="ml-2 h-3 w-3" />
-          </Link>
-        </Button>
+        <>
+          {profileInfo.data.profile.siteUrl && (
+            <Button variant="ghost" size="sm">
+              <Link
+                href={profileInfo.data.profile.siteUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center"
+              >
+                Visit Site <ArrowRight className="ml-2 h-3 w-3" />
+              </Link>
+            </Button>
+          )}
+        </>
       )
     },
     {
