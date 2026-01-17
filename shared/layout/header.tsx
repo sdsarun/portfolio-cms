@@ -5,7 +5,7 @@ import React from "react";
 import { cn } from "@/shared/ui/class-merge";
 import { cva, type VariantProps } from "class-variance-authority";
 
-const headerVariants = cva("mx-auto", {
+const headerVariants = cva("", {
   variants: {},
   defaultVariants: {}
 });
