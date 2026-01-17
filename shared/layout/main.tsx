@@ -7,18 +7,18 @@ import { cva, type VariantProps } from "class-variance-authority";
 
 const mainVariants = cva("", {
   variants: {
-    variants: {
+    variant: {
       publicPage: "h-dvh flex flex-col items-center justify-center",
-      authPage: "flex-1 overflow-y-auto"
+      authPage: "flex-1 p-6 overflow-y-auto"
     }
   },
   defaultVariants: {
-    variants: "publicPage"
+    variant: "publicPage"
   }
 });
 
 export type MainProps = React.ComponentPropsWithRef<"main"> & VariantProps<typeof mainVariants>;
 
-export function Main({ className, variants, ...props }: MainProps) {
-  return <main className={cn(mainVariants({ variants }), className)} {...props} />;
+export function Main({ className, variant, ...props }: MainProps) {
+  return <main className={cn(mainVariants({ variant }), className)} {...props} />;
 }
