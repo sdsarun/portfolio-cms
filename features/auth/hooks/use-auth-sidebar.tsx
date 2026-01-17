@@ -9,7 +9,7 @@ import { LayoutDashboard, Monitor, FileText, Briefcase, Phone, Key, Settings } f
 // hooks
 import { useSidebar } from "@/shared/ui/sidebar";
 
-type MenuItem = {
+export type MenuItem = {
   icon: React.ComponentType;
   label: string;
   path: string;
@@ -22,7 +22,7 @@ export function useAuthSidebar() {
 
   const menuItems: MenuItem[] = [
     { icon: LayoutDashboard, label: "Dashboard", path: "/auth", alias: "/auth/dashboard" },
-    { icon: Monitor, label: "Home Page", path: "/auth/manage/home-page" },
+    { icon: Monitor, label: "Home", path: "/auth/manage/home" },
     { icon: FileText, label: "Resume", path: "/auth/manage/resume" },
     { icon: Briefcase, label: "Work", path: "/auth/manage/work" },
     { icon: Phone, label: "Contact", path: "/auth/manage/contact" },
