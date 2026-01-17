@@ -1,7 +1,10 @@
-import { Main } from "@/shared/layout/main";
-import { requireAuth } from "@/shared/auth/required-auth";
+// components
 import { getDashboardDataAction } from "@/features/dashboard/actions/get-dashboard-action";
 import { Button } from "@/shared/ui/button";
+import { AuthMainContent } from "@/features/auth/components/layout/auth-main-content";
+
+// actions
+import { requireAuth } from "@/shared/auth/required-auth";
 import { signOutAction } from "@/features/auth/actions/signout-action";
 
 export type DashboardProps = PageProps<"/auth">;
@@ -9,7 +12,7 @@ export type DashboardProps = PageProps<"/auth">;
 export async function DashboardPage({}: DashboardProps) {
   await requireAuth();
   return (
-    <Main variant="authPage">
+    <AuthMainContent>
       <h1>dashboard page</h1>
       <Button
         onClick={async () => {
@@ -27,6 +30,6 @@ export async function DashboardPage({}: DashboardProps) {
       >
         Fetch
       </Button>
-    </Main>
+    </AuthMainContent>
   );
 }
