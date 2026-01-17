@@ -10,7 +10,7 @@ import { Monitor, Briefcase, FileText, Phone } from "lucide-react";
 import { Box } from "@/shared/layout/box";
 
 // actions
-import { getLatestUpdatedAction } from "@/features/dashboard/actions/get-latest-updated/get-latest-updated-action";
+import { getLatestUpdatedAction } from "@/shared/actions/get-latest-updated/get-latest-updated-action";
 
 export async function MenuCards() {
   const latestUpdated = await getLatestUpdatedAction();

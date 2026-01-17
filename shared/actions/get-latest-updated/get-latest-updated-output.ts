@@ -1,4 +1,4 @@
-export type LatestUpdated = {
+export type LatestUpdatedActionOutput = {
   info: string | null;
   resume: string | null;
   work: string | null;

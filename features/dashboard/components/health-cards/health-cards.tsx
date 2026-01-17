@@ -1,16 +1,16 @@
 // components
+import Link from "next/link";
 import {
   HealthCardItem,
   type HealthCardItemProps
 } from "@/features/dashboard/components/health-cards/health-card-item";
 import { MessageAlert } from "@/shared/ui/alert";
 import { ArrowRight, Globe } from "lucide-react";
-
-// actions
-import { getHealthAction } from "@/features/dashboard/actions/get-health/get-health-action";
 import { Box } from "@/shared/layout/box";
 import { Button } from "@/shared/ui/button";
-import Link from "next/link";
+
+// actions
+import { getHealthAction } from "@/shared/actions/get-health/get-health-action";
 
 export async function HealthCards() {
   const health = await getHealthAction();
