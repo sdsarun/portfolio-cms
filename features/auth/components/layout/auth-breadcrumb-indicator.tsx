@@ -21,7 +21,7 @@ export function AuthBreadcrumbIndicator() {
       <BreadcrumbList>
         <BreadcrumbItem className="hidden md:block">
           <BreadcrumbLink asChild>
-            <Link href="/auth">Home</Link>
+            <Link href="/auth/dashboard">Home</Link>
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator className="hidden md:block" />

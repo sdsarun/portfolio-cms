@@ -21,7 +21,7 @@ export function useAuthSidebar() {
   const pathname = usePathname();
 
   const menuItems: MenuItem[] = [
-    { icon: LayoutDashboard, label: "Dashboard", path: "/auth", alias: "/auth/dashboard" },
+    { icon: LayoutDashboard, label: "Dashboard", path: "/auth/dashboard", alias: "/auth/dashboard" },
     { icon: Monitor, label: "Home", path: "/auth/manage/home" },
     { icon: FileText, label: "Resume", path: "/auth/manage/resume" },
     { icon: Briefcase, label: "Work", path: "/auth/manage/work" },

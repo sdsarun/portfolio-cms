@@ -1,3 +1,5 @@
-import { DashboardPage } from "@/features/dashboard/pages/dashboard";
+import { redirect } from "next/navigation";
 
-export default DashboardPage;
+export default function AuthPage() {
+  redirect("/auth/dashboard");
+}
