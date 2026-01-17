@@ -12,7 +12,7 @@ import { Input } from "@/shared/ui/input";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/shared/ui/sheet";
 import { Separator } from "@radix-ui/react-dropdown-menu";
 import { Skeleton } from "@/shared/ui/skeleton";
-import { TooltipProvider, TooltipContent, Tooltip, TooltipTrigger } from "@radix-ui/react-tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/shared/ui/tooltip";
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state";
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
