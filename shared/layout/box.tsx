@@ -2,7 +2,7 @@ import React from "react";
 import { cn } from "@/shared/ui/class-merge";
 import { cva, type VariantProps } from "class-variance-authority";
 
-const boxVariants = cva("mx-auto", {
+const boxVariants = cva("", {
   variants: {},
   defaultVariants: {}
 });

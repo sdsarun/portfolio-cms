@@ -13,7 +13,7 @@ const headingVariants = cva("", {
     }
   },
   defaultVariants: {
-    variant: "h1"
+    variant: "h0"
   }
 });
 
