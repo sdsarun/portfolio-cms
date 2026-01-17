@@ -6,6 +6,9 @@ import { usePathname } from "next/navigation";
 // components
 import { LayoutDashboard, Monitor, FileText, Briefcase, Phone, Key, Settings } from "lucide-react";
 
+// hooks
+import { useSidebar } from "@/shared/ui/sidebar";
+
 type MenuItem = {
   icon: React.ComponentType;
   label: string;
@@ -14,6 +17,7 @@ type MenuItem = {
 };
 
 export function useAuthSidebar() {
+  const { state } = useSidebar();
   const pathname = usePathname();
 
   const menuItems: MenuItem[] = [
@@ -29,6 +33,7 @@ export function useAuthSidebar() {
   const currentPath = menuItems.find((item) => item.path === pathname || item?.alias === pathname);
 
   return {
+    expanded: state === "expanded",
     menuItems,
     currentPath
   };
