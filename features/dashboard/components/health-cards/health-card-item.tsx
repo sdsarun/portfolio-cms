@@ -1,5 +1,5 @@
 import { Box } from "@/shared/layout/box";
-import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/ui/card";
+import { Card, CardAction, CardDescription, CardHeader, CardTitle } from "@/shared/ui/card";
 import { cn } from "@/shared/ui/class-merge";
 import { DotPing } from "@/shared/ui/dot-ping";
 import { Typography } from "@/shared/ui/typography";

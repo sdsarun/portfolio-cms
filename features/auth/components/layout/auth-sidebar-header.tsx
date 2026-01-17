@@ -11,7 +11,7 @@ export function AuthSidebarHeader() {
       <SidebarMenu>
         <SidebarMenuItem>
           <SidebarMenuButton size="lg" asChild>
-            <Link href="/auth">
+            <Link href="/auth/dashboard">
               <Box className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
                 <Command className="size-4" />
               </Box>
