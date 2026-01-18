@@ -3,7 +3,7 @@ import { portfolioApi } from "@/shared/http/server-http-client";
 
 // actions
 import type { GetProfileInfoOutput } from "@/shared/actions/get-profile-info/get-profile-info-output";
-import { requireAuth } from "@/shared/auth/required-auth";
+import { requireAuth } from "@/features/auth/utils/require-auth";
 import { createAction } from "@/shared/utils/action/create-action";
 
 export const getProfileInfoAction = createAction<GetProfileInfoOutput>({

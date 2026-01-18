@@ -1,7 +1,7 @@
 "use server";
 
 // auth
-import { requireAuth } from "@/shared/auth/required-auth";
+import { requireAuth } from "@/features/auth/utils/require-auth";
 
 // http
 import { portfolioApi } from "@/shared/http/server-http-client";

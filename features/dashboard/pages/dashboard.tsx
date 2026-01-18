@@ -9,7 +9,7 @@ import { Box } from "@/shared/layout/box";
 import { Typography } from "@/shared/ui/typography";
 
 // actions
-import { requireAuth } from "@/shared/auth/required-auth";
+import { requireAuth } from "@/features/auth/utils/require-auth";
 import { HealthTimestamp } from "@/features/dashboard/components/health-cards/health-timestamp";
 import { Skeleton } from "@/shared/ui/skeleton";
 

@@ -1,5 +1,5 @@
 // actions
-import { requireAuth } from "@/shared/auth/required-auth";
+import { requireAuth } from "@/features/auth/utils/require-auth";
 
 export type RequireAuthProps = React.PropsWithChildren;
 

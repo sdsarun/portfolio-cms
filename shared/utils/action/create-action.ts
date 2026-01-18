@@ -6,8 +6,8 @@ import { isRedirectError } from "next/dist/client/components/redirect-error";
 // http
 import { HttpClientError } from "@/shared/http/http-client";
 
-// actions
-import { signOutAction } from "@/shared/actions/signout/signout-action";
+// utils
+import { redirectToSignOut } from "@/shared/utils/navigation/redirects";
 
 const RESOLVE_ERROR_MESSAGE_KEYS: string[] = ["message", "detail"];
 
@@ -67,7 +67,7 @@ export function createAction<TInput = void, TOutput = void>({
         if (error.response) {
           const responseStatus = error.response.status;
           if (responseStatus === 401 && redirectIfUnAuthorize) {
-            await signOutAction();
+            redirectToSignOut();
           }
 
           const errorResult = await error.response.json();
