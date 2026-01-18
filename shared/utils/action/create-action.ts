@@ -1,8 +1,13 @@
 import "server-only";
 
+// core
+import { isRedirectError } from "next/dist/client/components/redirect-error";
+
+// http
 import { HttpClientError } from "@/shared/http/http-client";
-import { isRedirectError, RedirectType } from "next/dist/client/components/redirect-error";
-import { redirect } from "next/navigation";
+
+// actions
+import { signOutAction } from "@/shared/actions/signout/signout-action";
 
 const RESOLVE_ERROR_MESSAGE_KEYS: string[] = ["message", "detail"];
 
@@ -43,7 +48,7 @@ export function createAction<TInput = void, TOutput = void>({
   action,
   auth
 }: CreateActionOptions<TInput, TOutput>) {
-  const { redirectIfUnAuthorize = false } = auth || {};
+  const { redirectIfUnAuthorize = true } = auth || {};
 
   const wrappedAction = async (input: TInput): Promise<ActionOutput<TOutput>> => {
     try {
@@ -62,7 +67,7 @@ export function createAction<TInput = void, TOutput = void>({
         if (error.response) {
           const responseStatus = error.response.status;
           if (responseStatus === 401 && redirectIfUnAuthorize) {
-            redirect("/", RedirectType.replace);
+            await signOutAction();
           }
 
           const errorResult = await error.response.json();

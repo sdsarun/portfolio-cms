@@ -10,6 +10,8 @@ import { Typography } from "@/shared/ui/typography";
 
 // actions
 import { requireAuth } from "@/shared/auth/required-auth";
+import { HealthTimestamp } from "@/features/dashboard/components/health-cards/health-timestamp";
+import { Skeleton } from "@/shared/ui/skeleton";
 
 export type DashboardProps = PageProps<"/auth">;
 
@@ -27,7 +29,12 @@ export async function DashboardPage({}: DashboardProps) {
         <MenuCards />
       </Suspense>
       <Box as="section" className="flex flex-col gap-4">
-        <Typography className="text-xl font-semibold tracking-tight">System Health</Typography>
+        <Box className="flex items-center justify-between">
+          <Typography className="text-xl font-semibold tracking-tight">System Health</Typography>
+          <Suspense fallback={<Skeleton className="h-6 w-2xs" />}>
+            <HealthTimestamp />
+          </Suspense>
+        </Box>
         <Suspense fallback={<HealthCardSkeleton />}>
           <HealthCards />
         </Suspense>
