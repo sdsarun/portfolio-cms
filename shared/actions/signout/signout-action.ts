@@ -1,13 +1,15 @@
 "use server";
 
-import { createAction } from "@/shared/utils/action/create-action";
+// core
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+import { redirect, RedirectType } from "next/navigation";
 
-export const signOutAction = createAction({
-  action: async () => {
-    const cookieStore = await cookies();
-    cookieStore.delete("token");
-    redirect("/");
-  }
-});
+export type SignOutActionOptions = {
+  redictType?: RedirectType;
+};
+
+export async function signOutAction(options?: SignOutActionOptions) {
+  const cookieStore = await cookies();
+  cookieStore.delete("token");
+  redirect("/", options?.redictType ?? RedirectType.replace);
+}
