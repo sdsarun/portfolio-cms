@@ -4,6 +4,8 @@ export type DateFormatterFormatOptions = {
   day?: Intl.DateTimeFormatOptions["day"];
   month?: Intl.DateTimeFormatOptions["month"];
   year?: Intl.DateTimeFormatOptions["year"];
+  hour?: Intl.DateTimeFormatOptions["hour"];
+  minute?: Intl.DateTimeFormatOptions["minute"];
   locale?: string;
 };
 
