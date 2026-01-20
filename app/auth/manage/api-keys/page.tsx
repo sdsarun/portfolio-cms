@@ -1,5 +1,2 @@
-import React from "react";
-
-export default function page() {
-  return <div>page</div>;
-}
+import { default as ApiKeysPage } from "@/features/manage/pages/api-keys";
+export default ApiKeysPage;

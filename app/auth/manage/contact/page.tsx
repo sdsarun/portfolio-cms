@@ -1,5 +1,2 @@
-import React from "react";
-
-export default function page() {
-  return <div>page</div>;
-}
+import { default as ContactPage } from "@/features/manage/pages/contact";
+export default ContactPage;

@@ -1,5 +1,2 @@
-import React from "react";
-
-export default function page() {
-  return <div>page</div>;
-}
+import { default as ResumePage } from "@/features/manage/pages/resume";
+export default ResumePage;
