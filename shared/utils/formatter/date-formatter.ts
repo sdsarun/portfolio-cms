@@ -7,6 +7,7 @@ export type DateFormatterFormatOptions = {
   hour?: Intl.DateTimeFormatOptions["hour"];
   minute?: Intl.DateTimeFormatOptions["minute"];
   locale?: string;
+  timeZone?: string;
 };
 
 export class DateFormatter {
@@ -14,9 +15,15 @@ export class DateFormatter {
 
   static format(dateInput: Date | number | string, options: DateFormatterFormatOptions): string {
     const date = DateUtils.toDateOrThrow(dateInput);
-    const { locale = "en-US", ...dateFormatOptions } = options;
-    const key = this.buildOptionsKey(locale, dateFormatOptions);
-    const formatter = this.getFormatterInstance(key, locale, dateFormatOptions);
+    const { locale = "en-US", timeZone = "Asia/Bangkok", ...dateFormatOptions } = options;
+
+    const intlOptions: DateFormatterFormatOptions = {
+      ...dateFormatOptions,
+      timeZone
+    };
+
+    const key = this.buildOptionsKey(locale, intlOptions);
+    const formatter = this.getFormatterInstance(key, locale, intlOptions);
     return formatter.format(date);
   }
 
