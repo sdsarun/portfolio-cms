@@ -9,20 +9,14 @@ export type FormLabelProps = React.ComponentProps<"label"> & {
   required?: boolean;
 };
 
-export default function FormLabel({
-  children,
-  className,
-  errorClassName,
-  required,
-  ...props
-}: FormLabelProps) {
+export function FormLabel({ children, className, errorClassName, required, ...props }: FormLabelProps) {
   const { formItemId, formLabelId, invalid } = useFormField();
 
   return (
     <label
       id={formLabelId}
       htmlFor={formItemId}
-      className={cn("block mb-2", className, {
+      className={cn("block mb-2 font-medium text-sm", className, {
         "text-destructive": invalid,
         [errorClassName ?? ""]: invalid
       })}

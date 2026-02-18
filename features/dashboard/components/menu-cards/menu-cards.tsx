@@ -1,11 +1,9 @@
-"use server";
-
 // components
 import {
   MenuCardItem,
   MenuCardItemProps
 } from "@/features/dashboard/components/menu-cards/menu-card-item";
-import { MessageAlert } from "@/shared/ui/alert";
+import { UnableToFetchDataAlert } from "@/shared/ui/alert/alert-fetch-failed";
 import { Monitor, Briefcase, FileText, Phone } from "lucide-react";
 import { Box } from "@/shared/layout/box";
 
@@ -15,7 +13,7 @@ import { getProfileLatestUpdatedAction } from "@/shared/actions/get-profile-late
 export async function MenuCards() {
   const latestUpdated = await getProfileLatestUpdatedAction();
   if (!latestUpdated.success) {
-    return <MessageAlert title="Unable to fetch data" description={latestUpdated.message} />;
+    return <UnableToFetchDataAlert description={latestUpdated.message} />;
   }
 
   const menuCardItems: MenuCardItemProps[] = [

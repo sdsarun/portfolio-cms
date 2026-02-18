@@ -1,5 +1,3 @@
-import React from "react";
+import { ManageHomePage } from "@/features/manage/pages/manage-home";
 
-export default function page() {
-  return <div>page</div>;
-}
+export default ManageHomePage;
