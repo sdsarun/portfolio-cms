@@ -34,5 +34,6 @@ export const signInAction = createAction<SignInActionInput>({
     });
 
     redirect("/auth/dashboard");
-  }
+  },
+  auth: { redirectIfUnAuthorize: false }
 });
