@@ -5,6 +5,8 @@ import { type ControllerRenderProps } from "react-hook-form";
 
 // components
 import { Input } from "@/shared/ui/input";
+
+// hooks
 import { useFormField } from "@/shared/ui/form/fields/use-form-field";
 
 export type TextInputProps = React.ComponentPropsWithRef<typeof Input> & {
@@ -31,7 +33,7 @@ export function TextInput({
       onChange={onChange ?? rhfField?.onChange}
       onBlur={onBlur ?? rhfField?.onBlur}
       disabled={disabled ?? rhfField?.disabled}
-      value={value ?? rhfField?.value}
+      value={value ?? rhfField?.value ?? ""}
       aria-invalid={invalid}
       {...props}
     />

@@ -12,7 +12,7 @@ import { Form } from "@/shared/ui/form/form";
 import { FormField } from "@/shared/ui/form/fields/form-field";
 import { FormItem } from "@/shared/ui/form/fields/form-item";
 import { FormErrorMessage } from "@/shared/ui/form/fields/form-error-message";
-import { TextInput } from "@/shared/ui/form/inputs/text";
+import { TextInput } from "@/shared/ui/form/inputs/text-input";
 import { Button } from "@/shared/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/ui/card";
 

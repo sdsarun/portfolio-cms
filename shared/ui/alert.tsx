@@ -57,7 +57,7 @@ function AlertDescription({ className, ...props }: React.ComponentProps<"div">) 
   );
 }
 
-type MessageAlertProps = {
+export type MessageAlertProps = {
   title: React.ReactNode;
   description?: React.ReactNode;
   icon?: React.ReactNode;
@@ -90,4 +90,5 @@ function MessageAlert({
     </Alert>
   );
 }
+
 export { Alert, AlertTitle, AlertDescription, MessageAlert };
