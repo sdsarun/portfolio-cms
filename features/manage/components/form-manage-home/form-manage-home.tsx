@@ -32,11 +32,11 @@ import {
 } from "@/features/manage/components/form-manage-home/schema";
 import type { ActionOutput } from "@/shared/utils/action/create-action";
 
-type FormManageHomeContainerProps = {
+type FormManageHomeProps = {
   profileInfoPromise: Promise<ActionOutput<GetProfileInfoOutput>>;
 };
 
-export function FormManageHome({ profileInfoPromise }: FormManageHomeContainerProps) {
+export function FormManageHome({ profileInfoPromise }: FormManageHomeProps) {
   const profileInfoResponse = use(profileInfoPromise);
   const { execute, isLoading } = useAction(updateHomeAction);
 
