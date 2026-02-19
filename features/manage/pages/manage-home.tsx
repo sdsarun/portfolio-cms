@@ -18,13 +18,13 @@ export async function ManageHomePage({}: ManageHomeProps) {
 
   const profileInfoPromise = getProfileInfoAction();
   const latestUpdated = await getProfileLatestUpdatedAction();
-  const homeLatestUpdated = latestUpdated.success ? latestUpdated.data.info : null;
+  const latestUpdateTimestamp = latestUpdated.success ? latestUpdated.data.info : null;
 
   return (
     <AuthMainContent
       title="Manage Home"
       classNames={{ root: "flex flex-col gap-6" }}
-      rightContent={<BadgeTimestamp timestamp={homeLatestUpdated} />}
+      rightContent={<BadgeTimestamp timestamp={latestUpdateTimestamp} />}
     >
       <Suspense fallback={<FormManageHomeSkeleton />}>
         <FormManageHome profileInfoPromise={profileInfoPromise} />
