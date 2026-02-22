@@ -1,5 +1,7 @@
 "use client";
 
+import { Box } from "@/shared/layout/box";
+
 // core
 import { type UseFormReturn } from "react-hook-form";
 import { Link as LinkIcon } from "lucide-react";
@@ -34,7 +36,7 @@ export function ResumeUrlSection({ form }: ResumeUrlSectionProps) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>PDF URL</FormLabel>
-              <div className="flex items-center gap-2">
+              <Box className="flex items-center gap-2">
                 <TextInput
                   rhfField={field}
                   placeholder="https://example.com/my-resume.pdf"
@@ -51,7 +53,7 @@ export function ResumeUrlSection({ form }: ResumeUrlSectionProps) {
                     <LinkIcon className="h-4 w-4" />
                   </a>
                 </Button>
-              </div>
+              </Box>
               <FormErrorMessage />
             </FormItem>
           )}

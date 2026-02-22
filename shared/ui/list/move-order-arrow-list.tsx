@@ -1,5 +1,7 @@
 "use client";
 
+import { Box } from "@/shared/layout/box";
+
 // core
 import React from "react";
 
@@ -41,11 +43,11 @@ export function MoveOrderArrowList({ items, onChange, onRemove }: MoveOrderArrow
   };
 
   return (
-    <div className="flex flex-col gap-2">
+    <Box className="flex flex-col gap-2">
       {renderedItems.map((item, index) => (
         <Card key={item.key} className="p-0">
           <CardContent className="flex items-center justify-between gap-2 p-4">
-            <div className="flex flex-col gap-1 h-full self-start">
+            <Box className="flex flex-col gap-1 h-full self-start">
               <Button
                 type="button"
                 variant="ghost"
@@ -70,9 +72,9 @@ export function MoveOrderArrowList({ items, onChange, onRemove }: MoveOrderArrow
               >
                 <ArrowDown className="h-3 w-3" />
               </Button>
-            </div>
-            <div className={cn("flex-1 h-full", item?.classNames?.content)}>{item.content}</div>
-            <div className="h-full self-start">
+            </Box>
+            <Box className={cn("flex-1 h-full", item?.classNames?.content)}>{item.content}</Box>
+            <Box className="h-full self-start">
               <Button
                 type="button"
                 variant="ghost"
@@ -83,10 +85,10 @@ export function MoveOrderArrowList({ items, onChange, onRemove }: MoveOrderArrow
               >
                 <Trash2 />
               </Button>
-            </div>
+            </Box>
           </CardContent>
         </Card>
       ))}
-    </div>
+    </Box>
   );
 }

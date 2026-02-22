@@ -1,5 +1,7 @@
 "use client";
 
+import { Box } from "@/shared/layout/box";
+
 // core
 import { useForm } from "react-hook-form";
 
@@ -42,7 +44,7 @@ export function SignInForm() {
   return (
     <Card className="w-full max-w-sm shadow-lg">
       <CardHeader className="text-center">
-        <div
+        <Box
           className={`mx-auto flex h-10 w-10 items-center justify-center rounded-full ${
             isLocked ? "bg-destructive/10" : "bg-primary/10"
           }`}
@@ -50,7 +52,7 @@ export function SignInForm() {
           {isLocked ?
             <AlertCircle className="h-5 w-5 text-destructive" />
           : <Lock className="h-5 w-5 text-primary" />}
-        </div>
+        </Box>
         <CardTitle>{isLocked ? "Locked" : "Portfolio CMS"}</CardTitle>
         <CardDescription>
           {isLocked ? `Security lockout active.` : "Enter your password to access"}
@@ -58,7 +60,7 @@ export function SignInForm() {
       </CardHeader>
       <CardContent>
         <Form form={form} onValid={handleSubmit}>
-          <div className="flex flex-col gap-4">
+          <Box className="flex flex-col gap-4">
             <FormField
               control={form.control}
               name="password"
@@ -72,7 +74,7 @@ export function SignInForm() {
             <Button type="submit" isLoading={isLoading} loadingContent="Verifying...">
               Sign in
             </Button>
-          </div>
+          </Box>
         </Form>
       </CardContent>
     </Card>

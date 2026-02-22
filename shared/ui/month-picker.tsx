@@ -1,5 +1,7 @@
 "use client";
 
+import { Box } from "@/shared/layout/box";
+
 import * as React from "react";
 import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -121,9 +123,9 @@ export function MonthPicker({
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[280px] p-3" align="start">
-        <div className="flex justify-center pt-1 relative items-center">
-          <div className="text-sm font-medium">{menuYear}</div>
-          <div className="space-x-1 flex items-center">
+        <Box className="flex justify-center pt-1 relative items-center">
+          <Box className="text-sm font-medium">{menuYear}</Box>
+          <Box className="space-x-1 flex items-center">
             <button
               type="button"
               onClick={() => setMenuYear((prev) => prev - 1)}
@@ -144,8 +146,8 @@ export function MonthPicker({
             >
               <ChevronRight className="opacity-50 h-4 w-4" />
             </button>
-          </div>
-        </div>
+          </Box>
+        </Box>
 
         <table className="w-full border-collapse space-y-1 mt-2">
           <tbody>

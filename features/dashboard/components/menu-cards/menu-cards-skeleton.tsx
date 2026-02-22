@@ -19,9 +19,9 @@ export function MenuCardsSkeleton() {
           </CardHeader>
           <CardContent />
           <CardFooter className="pt-0 pb-4">
-            <div className="w-full pt-4 mt-2 border-t">
+            <Box className="w-full pt-4 mt-2 border-t">
               <Skeleton className="h-4 w-32" />
-            </div>
+            </Box>
           </CardFooter>
         </Card>
       ))}

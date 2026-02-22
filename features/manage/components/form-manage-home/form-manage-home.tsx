@@ -24,6 +24,7 @@ import { useAction } from "@/shared/hooks/use-action";
 // actions
 import { updateHomeAction } from "@/shared/actions/update-home/update-home-action";
 import type { GetProfileInfoOutput } from "@/shared/actions/get-profile-info/get-profile-info-output";
+import { Messages } from "@/shared/constants/messages";
 
 // schema
 import {
@@ -62,7 +63,7 @@ export function FormManageHome({ profileInfoPromise }: FormManageHomeProps) {
   const handleSubmit = async (formValues: FormManageHomeValues) => {
     const result = await execute(formValues);
     if (result.success) {
-      toast.success("Your changes have been saved");
+      toast.success(Messages.common.toast.saved);
     } else {
       toast.error(result.message);
     }

@@ -1,5 +1,7 @@
 "use client";
 
+import { Box } from "@/shared/layout/box";
+
 import React, { createContext, useId } from "react";
 
 export type FormItemProps = React.ComponentProps<"div">;
@@ -14,9 +16,9 @@ export function FormItem({ children, ...props }: FormItemProps) {
   const formItemId = useId();
   return (
     <FormItemContext value={{ id: formItemId }}>
-      <div data-slot="form-item" {...props}>
+      <Box data-slot="form-item" {...props}>
         {children}
-      </div>
+      </Box>
     </FormItemContext>
   );
 }

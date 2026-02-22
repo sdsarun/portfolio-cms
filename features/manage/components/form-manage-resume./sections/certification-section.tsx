@@ -1,5 +1,7 @@
 "use client";
 
+import { Box } from "@/shared/layout/box";
+
 // core
 import { type UseFormReturn, useFieldArray } from "react-hook-form";
 import { Plus } from "lucide-react";
@@ -13,10 +15,11 @@ import { FormItem } from "@/shared/ui/form/fields/form-item";
 import { FormLabel } from "@/shared/ui/form/fields/form-label";
 import { TextInput } from "@/shared/ui/form/inputs/text-input";
 import { MonthPickerInput } from "@/shared/ui/form/inputs/month-picker-input";
-import { MoveOrderArrowList } from "@/shared/ui/move-order-arrow-list";
-import { ConfirmRemoveDialog } from "@/shared/ui/confirm-remove-dialog";
+import { MoveOrderArrowList } from "@/shared/ui/list/move-order-arrow-list";
+import { ConfirmDialog } from "@/shared/ui/dialogs/confirm-dialog";
 import { useModalState } from "@/shared/hooks/use-modal-state";
 import type { FormManageResumeValues } from "@/features/manage/components/form-manage-resume./schema";
+import { Messages } from "@/shared/constants/messages";
 
 type CertificationSectionProps = {
   form: UseFormReturn<FormManageResumeValues>;
@@ -43,10 +46,10 @@ export function CertificationSection({ form }: CertificationSectionProps) {
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between gap-3">
-        <div>
+        <Box>
           <CardTitle>Certification</CardTitle>
           <CardDescription>Courses, certificates, and completion dates.</CardDescription>
-        </div>
+        </Box>
         <Button type="button" size="sm" onClick={() => fieldArray.append(buildDefaultCertification())}>
           <Plus className="h-4 w-4" /> Add Certification
         </Button>
@@ -56,7 +59,7 @@ export function CertificationSection({ form }: CertificationSectionProps) {
           items={fieldArray.fields.map((field, index) => ({
             key: field.id,
             content: (
-              <div className="grid grid-cols-12 gap-3">
+              <Box className="grid grid-cols-12 gap-3">
                 <FormField
                   control={form.control}
                   name={`certification.${index}.name`}
@@ -92,7 +95,7 @@ export function CertificationSection({ form }: CertificationSectionProps) {
                     </FormItem>
                   )}
                 />
-              </div>
+              </Box>
             )
           }))}
           onChange={({ fromIndex, nextIndex }) => {
@@ -107,17 +110,16 @@ export function CertificationSection({ form }: CertificationSectionProps) {
         />
 
         {fieldArray.fields.length === 0 && (
-          <div className="text-sm text-muted-foreground border-2 border-dashed rounded-md p-4 text-center">
+          <Box className="text-sm text-muted-foreground border-2 border-dashed rounded-md p-4 text-center">
             No certifications added yet.
-          </div>
+          </Box>
         )}
 
-        <ConfirmRemoveDialog
+        <ConfirmDialog
           open={removeModal.state.isOpen}
-          title="Delete Certification?"
-          itemLabel={removeModal.state.payload.label}
-          confirmLabel="Delete"
-          cancelLabel="Cancel"
+          title={Messages.resume.dialog.deleteCertificationTitle}
+          confirmLabel={Messages.common.dialog.confirmDelete}
+          cancelLabel={Messages.common.dialog.cancel}
           onOpenChange={(open) => {
             if (!open) {
               removeModal.close({ index: null, label: "" });

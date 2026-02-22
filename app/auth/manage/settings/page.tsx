@@ -1,5 +1,3 @@
-import React from "react";
+import { ManageSettingsPage } from "@/features/manage/pages/manage-settings";
 
-export default function page() {
-  return <div>page</div>;
-}
+export default ManageSettingsPage;
