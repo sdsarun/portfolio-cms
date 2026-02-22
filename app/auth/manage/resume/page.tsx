@@ -1,5 +1,3 @@
-import React from "react";
+import { ManageResumePage } from "@/features/manage/pages/manage-resume";
 
-export default function page() {
-  return <div>page</div>;
-}
+export default ManageResumePage;

@@ -34,8 +34,7 @@ const buttonVariants = cva(
 );
 
 export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
   asChild?: boolean;
   isLoading?: boolean;
   loadingContent?: React.ReactNode;
@@ -54,6 +53,19 @@ function Button({
 }: ButtonProps) {
   const Comp = asChild ? Slot : "button";
 
+  if (asChild) {
+    return (
+      <Comp
+        data-slot="button"
+        className={cn(buttonVariants({ variant, size, className }))}
+        disabled={disabled || isLoading}
+        {...props}
+      >
+        {children}
+      </Comp>
+    );
+  }
+
   return (
     <Comp
       data-slot="button"
@@ -62,7 +74,7 @@ function Button({
       {...props}
     >
       {isLoading && <LoaderCircle className="animate-spin size-5" />}
-      {isLoading ? loadingContent ?? children : children}
+      {isLoading ? (loadingContent ?? children) : children}
     </Comp>
   );
 }

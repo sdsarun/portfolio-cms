@@ -6,8 +6,7 @@ import { useForm } from "react-hook-form";
 
 // components
 import { toast } from "@/shared/ui/sonner";
-import { Button } from "@/shared/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/shared/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/ui/card";
 import { FormField } from "@/shared/ui/form/fields/form-field";
 import { Form } from "@/shared/ui/form/form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,6 +16,7 @@ import { TextInput } from "@/shared/ui/form/inputs/text-input";
 import { FormErrorMessage } from "@/shared/ui/form/fields/form-error-message";
 import { TextAreaInput } from "@/shared/ui/form/inputs/text-area-input";
 import { UnableToFetchDataAlert } from "@/shared/ui/alert/alert-fetch-failed";
+import { FormActionFooter } from "@/shared/ui/form/form-action-footer";
 
 // hooks
 import { useAction } from "@/shared/hooks/use-action";
@@ -39,24 +39,24 @@ type FormManageHomeProps = {
 export function FormManageHome({ profileInfoPromise }: FormManageHomeProps) {
   const profileInfoResponse = use(profileInfoPromise);
   const { execute, isLoading } = useAction(updateHomeAction);
+  const defaultValues: FormManageHomeValues =
+    profileInfoResponse.success ?
+      {
+        bioDescription: profileInfoResponse.data.profile.bioDescription,
+        bioTitle: profileInfoResponse.data.profile.bioTitle,
+        displayName: profileInfoResponse.data.profile.displayName,
+        roleName: profileInfoResponse.data.profile.roleName
+      }
+    : {
+        bioDescription: undefined,
+        bioTitle: undefined,
+        displayName: undefined,
+        roleName: undefined
+      };
 
   const form = useForm<FormManageHomeValues>({
     resolver: zodResolver(FormManageHomeSchema),
-    defaultValues: {
-      ...(profileInfoResponse.success ?
-        {
-          bioDescription: profileInfoResponse.data.profile.bioDescription,
-          bioTitle: profileInfoResponse.data.profile.bioTitle,
-          displayName: profileInfoResponse.data.profile.displayName,
-          roleName: profileInfoResponse.data.profile.roleName
-        }
-      : {
-          bioDescription: undefined,
-          bioTitle: undefined,
-          displayName: undefined,
-          roleName: undefined
-        })
-    }
+    defaultValues
   });
 
   const handleSubmit = async (formValues: FormManageHomeValues) => {
@@ -125,11 +125,12 @@ export function FormManageHome({ profileInfoPromise }: FormManageHomeProps) {
             )}
           />
         </CardContent>
-        <CardFooter className="justify-end">
-          <Button type="submit" isLoading={isLoading} disabled={!form.formState.isDirty}>
-            Save Changes
-          </Button>
-        </CardFooter>
+        <FormActionFooter
+          className="px-6"
+          isLoading={isLoading}
+          isDirty={form.formState.isDirty}
+          onCancel={() => form.reset(defaultValues)}
+        />
       </Card>
     </Form>
   );
