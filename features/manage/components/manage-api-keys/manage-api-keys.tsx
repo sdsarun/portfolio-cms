@@ -60,7 +60,6 @@ export function ManageApiKeys({
   initialPageSize
 }: ManageApiKeysProps) {
   const initialResponse = use(initialApiKeysPromise);
-  console.log("[LOG] - manage-api-keys.tsx:63 - ManageApiKeys - initialResponse:", initialResponse);
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
