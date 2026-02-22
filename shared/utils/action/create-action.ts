@@ -61,6 +61,7 @@ export function createAction<TInput = void, TOutput = void>({
       if (isRedirectError(error)) {
         throw error;
       }
+      console.error("API error:", error);
       let message: string = "Unknown error";
 
       if (error instanceof HttpClientError) {

@@ -1,5 +1,3 @@
-import React from "react";
+import { ManageWorkPage } from "@/features/manage/pages/manage-work";
 
-export default function page() {
-  return <div>page</div>;
-}
+export default ManageWorkPage;

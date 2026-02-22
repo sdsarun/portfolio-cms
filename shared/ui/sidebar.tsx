@@ -1,5 +1,7 @@
 "use client";
 
+import { Box } from "@/shared/layout/box";
+
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
@@ -115,7 +117,7 @@ function SidebarProvider({
   return (
     <SidebarContext.Provider value={contextValue}>
       <TooltipProvider delayDuration={0}>
-        <div
+        <Box
           data-slot="sidebar-wrapper"
           style={
             {
@@ -131,7 +133,7 @@ function SidebarProvider({
           {...props}
         >
           {children}
-        </div>
+        </Box>
       </TooltipProvider>
     </SidebarContext.Provider>
   );
@@ -153,7 +155,7 @@ function Sidebar({
 
   if (collapsible === "none") {
     return (
-      <div
+      <Box
         data-slot="sidebar"
         className={cn(
           "bg-sidebar text-sidebar-foreground flex h-full w-(--sidebar-width) flex-col",
@@ -162,7 +164,7 @@ function Sidebar({
         {...props}
       >
         {children}
-      </div>
+      </Box>
     );
   }
 
@@ -185,14 +187,14 @@ function Sidebar({
             <SheetTitle>Sidebar</SheetTitle>
             <SheetDescription>Displays the mobile sidebar.</SheetDescription>
           </SheetHeader>
-          <div className="flex h-full w-full flex-col">{children}</div>
+          <Box className="flex h-full w-full flex-col">{children}</Box>
         </SheetContent>
       </Sheet>
     );
   }
 
   return (
-    <div
+    <Box
       className="group peer text-sidebar-foreground hidden md:block"
       data-state={state}
       data-collapsible={state === "collapsed" ? collapsible : ""}
@@ -201,7 +203,7 @@ function Sidebar({
       data-slot="sidebar"
     >
       {/* This is what handles the sidebar gap on desktop */}
-      <div
+      <Box
         data-slot="sidebar-gap"
         className={cn(
           "relative w-(--sidebar-width) bg-transparent transition-[width] duration-200 ease-linear",
@@ -212,7 +214,7 @@ function Sidebar({
           : "group-data-[collapsible=icon]:w-(--sidebar-width-icon)"
         )}
       />
-      <div
+      <Box
         data-slot="sidebar-container"
         className={cn(
           "fixed inset-y-0 z-10 hidden h-svh w-(--sidebar-width) transition-[left,right,width] duration-200 ease-linear md:flex",
@@ -227,15 +229,15 @@ function Sidebar({
         )}
         {...props}
       >
-        <div
+        <Box
           data-sidebar="sidebar"
           data-slot="sidebar-inner"
           className="bg-sidebar group-data-[variant=floating]:border-sidebar-border flex h-full w-full flex-col group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:shadow-sm"
         >
           {children}
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Box>
+    </Box>
   );
 }
 
@@ -313,7 +315,7 @@ function SidebarInput({ className, ...props }: React.ComponentProps<typeof Input
 
 function SidebarHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
-    <div
+    <Box
       data-slot="sidebar-header"
       data-sidebar="header"
       className={cn("flex flex-col gap-2 p-2", className)}
@@ -324,7 +326,7 @@ function SidebarHeader({ className, ...props }: React.ComponentProps<"div">) {
 
 function SidebarFooter({ className, ...props }: React.ComponentProps<"div">) {
   return (
-    <div
+    <Box
       data-slot="sidebar-footer"
       data-sidebar="footer"
       className={cn("flex flex-col gap-2 p-2", className)}
@@ -346,7 +348,7 @@ function SidebarSeparator({ className, ...props }: React.ComponentProps<typeof S
 
 function SidebarContent({ className, ...props }: React.ComponentProps<"div">) {
   return (
-    <div
+    <Box
       data-slot="sidebar-content"
       data-sidebar="content"
       className={cn(
@@ -360,7 +362,7 @@ function SidebarContent({ className, ...props }: React.ComponentProps<"div">) {
 
 function SidebarGroup({ className, ...props }: React.ComponentProps<"div">) {
   return (
-    <div
+    <Box
       data-slot="sidebar-group"
       data-sidebar="group"
       className={cn("relative flex w-full min-w-0 flex-col p-2", className)}
@@ -415,7 +417,7 @@ function SidebarGroupAction({
 
 function SidebarGroupContent({ className, ...props }: React.ComponentProps<"div">) {
   return (
-    <div
+    <Box
       data-slot="sidebar-group-content"
       data-sidebar="group-content"
       className={cn("w-full text-sm", className)}
@@ -558,7 +560,7 @@ function SidebarMenuAction({
 
 function SidebarMenuBadge({ className, ...props }: React.ComponentProps<"div">) {
   return (
-    <div
+    <Box
       data-slot="sidebar-menu-badge"
       data-sidebar="menu-badge"
       className={cn(
@@ -589,7 +591,7 @@ function SidebarMenuSkeleton({
   }, []);
 
   return (
-    <div
+    <Box
       data-slot="sidebar-menu-skeleton"
       data-sidebar="menu-skeleton"
       className={cn("flex h-8 items-center gap-2 rounded-md px-2", className)}
@@ -605,7 +607,7 @@ function SidebarMenuSkeleton({
           } as React.CSSProperties
         }
       />
-    </div>
+    </Box>
   );
 }
 

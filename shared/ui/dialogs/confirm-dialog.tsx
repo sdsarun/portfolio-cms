@@ -12,44 +12,37 @@ import {
   DialogTitle
 } from "@/shared/ui/dialog";
 
-export type ConfirmRemoveDialogProps = {
+export type ConfirmDialogProps = {
   open: boolean;
   title?: string;
-  itemLabel?: string | null;
   description?: ReactNode;
   confirmLabel?: string;
   cancelLabel?: string;
+  confirmVariant?: React.ComponentProps<typeof Button>["variant"];
   isConfirmLoading?: boolean;
+  isConfirmDisabled?: boolean;
   onConfirm: () => void;
   onOpenChange: (open: boolean) => void;
 };
 
-export function ConfirmRemoveDialog({
+export function ConfirmDialog({
   open,
-  title = "Delete Item?",
-  itemLabel,
+  title = "Confirm Action",
   description,
-  confirmLabel = "Delete",
+  confirmLabel = "Confirm",
   cancelLabel = "Cancel",
+  confirmVariant = "destructive",
   isConfirmLoading,
+  isConfirmDisabled,
   onConfirm,
   onOpenChange
-}: ConfirmRemoveDialogProps) {
-  const safeItemLabel = itemLabel?.trim() || "this item";
-
+}: ConfirmDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
-          <DialogDescription>
-            {description ?? (
-              <>
-                Are you sure you want to delete <strong>{safeItemLabel}</strong>? This action cannot be
-                undone.
-              </>
-            )}
-          </DialogDescription>
+          <DialogDescription>{description ?? "Are you sure you want to continue?"}</DialogDescription>
         </DialogHeader>
         <DialogFooter>
           <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
@@ -57,8 +50,9 @@ export function ConfirmRemoveDialog({
           </Button>
           <Button
             type="button"
-            variant="destructive"
+            variant={confirmVariant}
             isLoading={isConfirmLoading}
+            disabled={isConfirmDisabled}
             onClick={onConfirm}
           >
             {confirmLabel}

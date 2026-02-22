@@ -1,7 +1,4 @@
 const DEFAULT_REQUEST_TIMEOUT = 1000 * 60; // 1 min
-const DEFAULT_HEADERS = {
-  "Content-Type": "application/json"
-};
 
 export type CreateHttpClientOptions = {
   baseUrl?: string;
@@ -44,19 +41,34 @@ export function createHttpClient(options?: CreateHttpClientOptions) {
     return url;
   }
 
-  function mergeHeaders(headers: HeadersInit = {}): HeadersInit {
-    return {
-      ...DEFAULT_HEADERS,
-      ...defaultHeaders,
-      ...headers
-    };
+  function mergeHeaders(headers: HeadersInit = {}, body?: BodyInit | null): Headers {
+    const mergedHeaders = new Headers({
+      ...defaultHeaders
+    });
+
+    const incomingHeaders = new Headers(headers);
+    incomingHeaders.forEach((value, key) => {
+      mergedHeaders.set(key, value);
+    });
+
+    const shouldSetJsonContentType =
+      body !== undefined &&
+      body !== null &&
+      !(body instanceof FormData) &&
+      !mergedHeaders.has("Content-Type");
+
+    if (shouldSetJsonContentType) {
+      mergedHeaders.set("Content-Type", "application/json");
+    }
+
+    return mergedHeaders;
   }
 
   return async function (url: string, requestOptions?: RequestOptions): Promise<Response> {
     const { params, timeout: requestTimeout, ...requestInitOptions } = requestOptions ?? {};
 
     const requestUrl = buildRequestUrl(url, params);
-    const headers = mergeHeaders(requestInitOptions.headers);
+    const headers = mergeHeaders(requestInitOptions.headers, requestInitOptions.body);
 
     const mergeRequestOptions: RequestInit = {
       ...requestInitOptions,

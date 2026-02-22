@@ -1,5 +1,7 @@
 "use client";
 
+import { Box } from "@/shared/layout/box";
+
 // core
 import { use, useMemo } from "react";
 import { useForm } from "react-hook-form";
@@ -24,6 +26,7 @@ import type { GetProfileResumeOutput } from "@/shared/actions/get-profile-resume
 import type { ActionOutput } from "@/shared/utils/action/create-action";
 import { upsertProfileResumeAction } from "@/shared/actions/upsert-profile-resume/upsert-profile-resume-action";
 import type { UpsertProfileResumeActionInput } from "@/shared/actions/upsert-profile-resume/upsert-profile-resume-input";
+import { Messages } from "@/shared/constants/messages";
 
 // schema
 import {
@@ -132,7 +135,7 @@ export function FormManageResume({ profileResumePromise }: FormManageResumeProps
     const result = await execute(payload);
 
     if (result.success) {
-      toast.success("Your changes have been saved");
+      toast.success(Messages.common.toast.saved);
 
       form.reset({
         resumeUrl: result.data.profile?.resumeUrl ?? "",
@@ -174,7 +177,7 @@ export function FormManageResume({ profileResumePromise }: FormManageResumeProps
 
   return (
     <Form form={form} onValid={handleSubmit}>
-      <div className="space-y-6">
+      <Box className="space-y-6">
         <ExperienceSection form={form} />
         <SkillsSection form={form} />
         <EducationSection form={form} />
@@ -185,7 +188,7 @@ export function FormManageResume({ profileResumePromise }: FormManageResumeProps
           isDirty={form.formState.isDirty}
           onCancel={() => form.reset(defaultValues)}
         />
-      </div>
+      </Box>
     </Form>
   );
 }

@@ -1,5 +1,7 @@
 "use client";
 
+import { Box } from "@/shared/layout/box";
+
 // core
 import { type UseFormReturn, useFieldArray } from "react-hook-form";
 import { Plus } from "lucide-react";
@@ -12,10 +14,11 @@ import { FormField } from "@/shared/ui/form/fields/form-field";
 import { FormItem } from "@/shared/ui/form/fields/form-item";
 import { FormLabel } from "@/shared/ui/form/fields/form-label";
 import { TextInput } from "@/shared/ui/form/inputs/text-input";
-import { MoveOrderArrowList } from "@/shared/ui/move-order-arrow-list";
-import { ConfirmRemoveDialog } from "@/shared/ui/confirm-remove-dialog";
+import { MoveOrderArrowList } from "@/shared/ui/list/move-order-arrow-list";
+import { ConfirmDialog } from "@/shared/ui/dialogs/confirm-dialog";
 import { useModalState } from "@/shared/hooks/use-modal-state";
 import type { FormManageResumeValues } from "@/features/manage/components/form-manage-resume./schema";
+import { Messages } from "@/shared/constants/messages";
 
 type SkillsSectionProps = {
   form: UseFormReturn<FormManageResumeValues>;
@@ -41,10 +44,10 @@ export function SkillsSection({ form }: SkillsSectionProps) {
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between gap-3">
-        <div>
+        <Box>
           <CardTitle>Skills</CardTitle>
           <CardDescription>Group your tools and technologies by category.</CardDescription>
-        </div>
+        </Box>
         <Button type="button" size="sm" onClick={() => fieldArray.append(buildDefaultSkill())}>
           <Plus className="h-4 w-4" /> Add Category
         </Button>
@@ -54,7 +57,7 @@ export function SkillsSection({ form }: SkillsSectionProps) {
           items={fieldArray.fields.map((field, index) => ({
             key: field.id,
             content: (
-              <div className="grid grid-cols-12 gap-3">
+              <Box className="grid grid-cols-12 gap-3">
                 <FormField
                   control={form.control}
                   name={`skills.${index}.categoryName`}
@@ -78,7 +81,7 @@ export function SkillsSection({ form }: SkillsSectionProps) {
                     </FormItem>
                   )}
                 />
-              </div>
+              </Box>
             )
           }))}
           onChange={({ fromIndex, nextIndex }) => {
@@ -93,17 +96,16 @@ export function SkillsSection({ form }: SkillsSectionProps) {
         />
 
         {fieldArray.fields.length === 0 && (
-          <div className="text-sm text-muted-foreground border-2 border-dashed rounded-md p-4 text-center">
+          <Box className="text-sm text-muted-foreground border-2 border-dashed rounded-md p-4 text-center">
             No skill categories added yet.
-          </div>
+          </Box>
         )}
 
-        <ConfirmRemoveDialog
+        <ConfirmDialog
           open={removeModal.state.isOpen}
-          title="Delete Category?"
-          itemLabel={removeModal.state.payload.label}
-          confirmLabel="Delete"
-          cancelLabel="Cancel"
+          title={Messages.resume.dialog.deleteCategoryTitle}
+          confirmLabel={Messages.common.dialog.confirmDelete}
+          cancelLabel={Messages.common.dialog.cancel}
           onOpenChange={(open) => {
             if (!open) {
               removeModal.close({ index: null, label: "" });

@@ -1,5 +1,7 @@
 "use client";
 
+import { Box } from "@/shared/layout/box";
+
 import { Button } from "@/shared/ui/button";
 import { cn } from "@/shared/ui/class-merge";
 
@@ -21,13 +23,13 @@ export function FormActionFooter({
   className
 }: FormActionFooterProps) {
   return (
-    <div className={cn("flex justify-end gap-2", className)}>
+    <Box className={cn("flex justify-end gap-2", className)}>
       <Button type="button" variant="outline" onClick={onCancel} disabled={!isDirty || isLoading}>
         {cancelLabel}
       </Button>
       <Button type="submit" isLoading={isLoading} disabled={!isDirty}>
         {saveLabel}
       </Button>
-    </div>
+    </Box>
   );
 }

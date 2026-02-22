@@ -5,6 +5,7 @@ import { CSSProperties, forwardRef, KeyboardEvent, useEffect, useRef, useState }
 import NextImage, { type ImageProps as NextImageProps } from "next/image";
 import { Hand, ImageOff, Maximize2, Minus, Plus, RefreshCw, RotateCcw, RotateCw } from "lucide-react";
 
+import { Box } from "@/shared/layout/box";
 import { cn } from "@/shared/ui/class-merge";
 import { Dialog, DialogContent, DialogTitle } from "@/shared/ui/dialog";
 import { Skeleton } from "@/shared/ui/skeleton";
@@ -15,6 +16,28 @@ export type ImageProps = NextImageProps & {
   wrapperClassName?: string;
   caption?: string;
 };
+
+function isRenderableImageSrc(src: NextImageProps["src"]): boolean {
+  if (typeof src !== "string") {
+    return true;
+  }
+
+  const normalized = src.trim();
+  if (!normalized) {
+    return false;
+  }
+
+  if (normalized.startsWith("/") || normalized.startsWith("data:image/")) {
+    return true;
+  }
+
+  try {
+    const parsedUrl = new URL(normalized);
+    return parsedUrl.protocol === "http:" || parsedUrl.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
 
 const Image = forwardRef<HTMLImageElement, ImageProps>(function Image(
   {
@@ -70,7 +93,8 @@ const Image = forwardRef<HTMLImageElement, ImageProps>(function Image(
   });
   const DRAG_THRESHOLD = 3; // pixels
 
-  const canPreview = enableViewer && !hasError;
+  const isSrcRenderable = isRenderableImageSrc(imageProps.src);
+  const canPreview = enableViewer && !hasError && isSrcRenderable;
   const hasDimensions = typeof width !== "undefined" && typeof height !== "undefined";
   const resolvedFill = fill ?? !hasDimensions;
   const imageDimensionProps = resolvedFill
@@ -99,43 +123,45 @@ const Image = forwardRef<HTMLImageElement, ImageProps>(function Image(
         wrapperClassName
       )}
     >
-      <NextImage
-        {...imageProps}
-        alt={alt}
-        ref={ref}
-        onLoad={(event) => {
-          setIsLoaded(true);
-          onLoad?.(event);
-        }}
-        onError={(event) => {
-          setHasError(true);
-          imageProps.onError?.(event);
-        }}
-        className={baseImageClassName}
-        style={style}
-        {...imageDimensionProps}
-      />
+      {isSrcRenderable && (
+        <NextImage
+          {...imageProps}
+          alt={alt}
+          ref={ref}
+          onLoad={(event) => {
+            setIsLoaded(true);
+            onLoad?.(event);
+          }}
+          onError={(event) => {
+            setHasError(true);
+            imageProps.onError?.(event);
+          }}
+          className={baseImageClassName}
+          style={style}
+          {...imageDimensionProps}
+        />
+      )}
 
       {showLoadingState && !isLoaded && !hasError && (
         <Skeleton className="absolute inset-0 h-full w-full" />
       )}
 
       {canPreview && (
-        <div className="pointer-events-none absolute inset-0 bg-black/0 transition-all duration-200 group-hover:bg-black/5" />
+        <Box className="pointer-events-none absolute inset-0 bg-black/0 transition-all duration-200 group-hover:bg-black/5" />
       )}
 
       {canPreview && (
-        <div className="pointer-events-none absolute right-3 bottom-3 flex items-center gap-1 rounded-full bg-background/80 px-2 py-1 text-[11px] font-medium text-muted-foreground shadow-sm backdrop-blur-sm opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+        <Box className="pointer-events-none absolute right-3 bottom-3 flex items-center gap-1 rounded-full bg-background/80 px-2 py-1 text-[11px] font-medium text-muted-foreground shadow-sm backdrop-blur-sm opacity-0 transition-opacity duration-200 group-hover:opacity-100">
           <Maximize2 className="size-3.5" />
           View
-        </div>
+        </Box>
       )}
 
-      {hasError && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-background/80 text-muted-foreground">
+      {(hasError || !isSrcRenderable) && (
+        <Box className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-background/80 text-muted-foreground">
           <ImageOff className="size-6" />
-          <span className="text-xs">Image unavailable</span>
-        </div>
+          <span className="text-xs">{isSrcRenderable ? "Image unavailable" : "Invalid image URL"}</span>
+        </Box>
       )}
 
       {caption && (
@@ -182,7 +208,7 @@ const Image = forwardRef<HTMLImageElement, ImageProps>(function Image(
 
   return (
     <>
-      <div
+      <Box
         role={canPreview ? "button" : "img"}
         tabIndex={canPreview ? 0 : -1}
         aria-label={canPreview ? `Open image viewer for ${alt ?? "image"}` : alt}
@@ -194,14 +220,14 @@ const Image = forwardRef<HTMLImageElement, ImageProps>(function Image(
         )}
       >
         {figure}
-      </div>
+      </Box>
 
       {enableViewer && !hasError && (
         <Dialog open={viewerOpen} onOpenChange={setViewerOpen}>
           <DialogContent className="fixed left-0 top-0 w-screen h-screen max-w-none max-h-none translate-x-0 translate-y-0 border-0 bg-black text-white shadow-none p-0 gap-0 rounded-none sm:max-w-none">
             <DialogTitle className="sr-only">{alt ?? "Image viewer"}</DialogTitle>
-            <div className="group/image-viewer relative h-full w-full overflow-hidden bg-black">
-              <div
+            <Box className="group/image-viewer relative h-full w-full overflow-hidden bg-black">
+              <Box
                 className={cn(
                   "relative flex h-full w-full touch-none select-none items-center justify-center transition-transform duration-150 ease-out",
                   zoom > 1 ? (isDragging ? "cursor-grabbing" : "cursor-grab") : "cursor-default"
@@ -210,7 +236,7 @@ const Image = forwardRef<HTMLImageElement, ImageProps>(function Image(
                   transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom}) rotate(${rotation}deg)`,
                   transformOrigin: "center center"
                 }}
-                onPointerDown={(event) => {
+                onPointerDown={(event: React.PointerEvent<HTMLDivElement>) => {
                   const target = event.currentTarget;
                   target.setPointerCapture(event.pointerId);
                   event.preventDefault();
@@ -245,7 +271,7 @@ const Image = forwardRef<HTMLImageElement, ImageProps>(function Image(
                     panY: pan.y
                   };
                 }}
-                onPointerMove={(event) => {
+                onPointerMove={(event: React.PointerEvent<HTMLDivElement>) => {
                   let handled = false;
                   // Update pointer for pinch tracking.
                   if (pinchState.current.pointers.has(event.pointerId)) {
@@ -307,7 +333,7 @@ const Image = forwardRef<HTMLImageElement, ImageProps>(function Image(
                   });
                   event.preventDefault();
                 }}
-                onPointerUp={(event) => {
+                onPointerUp={(event: React.PointerEvent<HTMLDivElement>) => {
                   event.currentTarget.releasePointerCapture(event.pointerId);
                   pinchState.current.pointers.delete(event.pointerId);
                   if (pinchState.current.pointers.size < 2) {
@@ -319,7 +345,7 @@ const Image = forwardRef<HTMLImageElement, ImageProps>(function Image(
                   dragState.current.isPointerDown = false;
                   setIsDragging(false);
                 }}
-                onPointerCancel={(event) => {
+                onPointerCancel={(event: React.PointerEvent<HTMLDivElement>) => {
                   event.currentTarget.releasePointerCapture(event.pointerId);
                   pinchState.current.pointers.delete(event.pointerId);
                   pinchState.current.initialDistance = null;
@@ -331,7 +357,7 @@ const Image = forwardRef<HTMLImageElement, ImageProps>(function Image(
                 onDoubleClick={() => {
                   setZoomAndResetPan(1);
                 }}
-                onWheel={(event) => {
+                onWheel={(event: React.WheelEvent<HTMLDivElement>) => {
                   event.preventDefault();
                   const delta = event.deltaY > 0 ? -0.25 : 0.25;
                   adjustZoom(delta);
@@ -345,8 +371,8 @@ const Image = forwardRef<HTMLImageElement, ImageProps>(function Image(
                   style={viewerImageStyle}
                   {...imageDimensionProps}
                 />
-              </div>
-              <div className="pointer-events-none absolute left-4 top-4 flex flex-wrap items-center gap-2 rounded-full bg-white/10 px-3 py-2 text-xs font-medium text-white shadow-lg backdrop-blur-md opacity-0 transition-opacity duration-150 group-hover/image-viewer:pointer-events-auto group-hover/image-viewer:opacity-100">
+              </Box>
+              <Box className="pointer-events-none absolute left-4 top-4 flex flex-wrap items-center gap-2 rounded-full bg-white/10 px-3 py-2 text-xs font-medium text-white shadow-lg backdrop-blur-md opacity-0 transition-opacity duration-150 group-hover/image-viewer:pointer-events-auto group-hover/image-viewer:opacity-100">
                 <button
                   type="button"
                   className="flex items-center gap-1 rounded-full bg-white/10 px-2 py-1 transition hover:bg-white/20"
@@ -389,12 +415,12 @@ const Image = forwardRef<HTMLImageElement, ImageProps>(function Image(
                 >
                   <RefreshCw className="size-3.5" />
                 </button>
-                <div className="flex items-center gap-1 rounded-full bg-white/10 px-2 py-1 text-[11px]">
+                <Box className="flex items-center gap-1 rounded-full bg-white/10 px-2 py-1 text-[11px]">
                   <Hand className="size-3.5" />
                   <span>Drag to pan</span>
-                </div>
-              </div>
-            </div>
+                </Box>
+              </Box>
+            </Box>
           </DialogContent>
         </Dialog>
       )}

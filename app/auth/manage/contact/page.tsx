@@ -1,5 +1,3 @@
-import React from "react";
+import { ManageContactPage } from "@/features/manage/pages/manage-contact";
 
-export default function page() {
-  return <div>page</div>;
-}
+export default ManageContactPage;
